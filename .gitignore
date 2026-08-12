@@ -5,3 +5,9 @@ __pycache__/
 .mypy_cache/
 .deepeval/
 report.html
+
+config/secret_key
+config/field_encryption_key
+config/codex.sqlite3
+config/cache/
+config/logs/
