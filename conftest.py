@@ -1,0 +1,15 @@
+import pytest
+import deepeval
+
+
+# deepeval's pytest plugin creates a fresh TestRun in `pytest_sessionstart`,
+# which runs after conftest.py is imported. Logging hyperparameters at
+# module import time (rather than inside a fixture) would set them on a
+# TestRun that gets discarded before tests run, so this must be an
+# autouse session fixture instead.
+@pytest.fixture(scope="session", autouse=True)
+def _log_hyperparameters():
+    @deepeval.log_hyperparameters
+    def hyperparameters():
+        """:return: A dictionary of hyperparameters to log for this test run."""
+        return {"model": "gpt-4o-mini", "prompt_template": "my-template-v1"}
