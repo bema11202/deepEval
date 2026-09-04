@@ -1,10 +1,14 @@
 .env
+.env.local
+.venv/
 __pycache__/
 *.pyc
 .pytest_cache/
 .mypy_cache/
 .deepeval/
 report.html
+.idea/
+.claude/settings.local.json
 
 config/secret_key
 config/field_encryption_key

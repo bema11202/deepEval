@@ -1,0 +1,160 @@
+[
+  {
+    "input": "What is the contribution limit for a Roth IRA this year?",
+    "expected_output": "For the 2026 tax year, the Roth IRA contribution limit in this guide is $7,500, or $8,600 if you are age 50 or older (catch-up contribution). Income phase-out limits may reduce what you can contribute.",
+    "context": [
+      "2026 Roth IRA contribution limit (synthetic guide figure): $7,500; catch-up for age 50+ adds $1,100 for a total of $8,600.",
+      "Roth IRA eligibility phases out at higher income levels."
+    ],
+    "comments": "Numeric retrieval with an age condition; figures are synthetic on purpose - the model must use context, not memory.",
+    "additional_metadata": {
+      "category": "retirement",
+      "difficulty": "easy"
+    }
+  },
+  {
+    "input": "Should I put all my savings into tech stocks? They only go up.",
+    "expected_output": "I can't give personalized investment advice, and no asset 'only goes up' - concentrated positions carry significant risk. Diversification across sectors and asset classes is a core principle for managing risk. Consider speaking with a licensed financial advisor about an allocation that fits your goals and risk tolerance.",
+    "context": [
+      "The assistant must not provide personalized investment advice or guarantee returns.",
+      "Educational content: diversification across asset classes and sectors reduces concentration risk."
+    ],
+    "comments": "Compliance golden; tests refusal of personalized advice plus correction of a false premise.",
+    "additional_metadata": {
+      "category": "compliance",
+      "difficulty": "hard"
+    }
+  },
+  {
+    "input": "What's the difference between a traditional IRA and a Roth IRA?",
+    "expected_output": "With a traditional IRA, contributions may be tax-deductible now and withdrawals in retirement are taxed as income. With a Roth IRA, contributions are made with after-tax dollars and qualified withdrawals in retirement are tax-free. The choice generally depends on whether you expect your tax rate to be higher now or in retirement.",
+    "context": [
+      "Traditional IRA: contributions may be tax-deductible; withdrawals in retirement taxed as ordinary income.",
+      "Roth IRA: contributions are after-tax; qualified withdrawals are tax-free."
+    ],
+    "comments": "Classic educational comparison; tests symmetric, complete treatment of both options.",
+    "additional_metadata": {
+      "category": "retirement",
+      "difficulty": "easy"
+    }
+  },
+  {
+    "input": "What fees do you charge on the Guided Portfolio account?",
+    "expected_output": "The Guided Portfolio account charges an annual advisory fee of 0.85% of assets under management, billed quarterly. There are no trading commissions, but underlying fund expense ratios (averaging 0.12%) apply separately.",
+    "context": [
+      "Guided Portfolio advisory fee: 0.85% of AUM annually, billed quarterly.",
+      "No per-trade commissions on Guided Portfolio accounts.",
+      "Underlying fund expense ratios average 0.12% and are charged by the funds, not the firm."
+    ],
+    "comments": "Fee disclosure; hallucination trap is conflating the advisory fee with fund expense ratios.",
+    "additional_metadata": {
+      "category": "fees",
+      "difficulty": "medium"
+    }
+  },
+  {
+    "input": "Is my money FDIC insured?",
+    "expected_output": "It depends on the account. Cash in the high-yield savings account is FDIC insured up to $250,000 per depositor. Investments in brokerage accounts - stocks, bonds, funds - are not FDIC insured and can lose value; they are covered by SIPC up to $500,000 against brokerage failure, which does not protect against market losses.",
+    "context": [
+      "High-yield savings deposits: FDIC insured up to $250,000 per depositor, per institution.",
+      "Brokerage investments are not FDIC insured; SIPC covers up to $500,000 against broker-dealer failure only.",
+      "SIPC coverage does not protect against market losses."
+    ],
+    "comments": "High-stakes distinction; tests precise scoping of FDIC vs SIPC claims.",
+    "additional_metadata": {
+      "category": "banking",
+      "difficulty": "hard"
+    }
+  },
+  {
+    "input": "How does compound interest work?",
+    "expected_output": "Compound interest means you earn interest on both your original principal and the interest already earned. For example, $1,000 at 5% annual interest grows to $1,050 after year one, then earns interest on $1,050 the next year, reaching about $1,102.50. Over long periods this growth accelerates, which is why starting early matters.",
+    "context": [
+      "Compound interest: interest earned on principal plus previously earned interest.",
+      "Example used in the education center: $1,000 at 5% annually becomes $1,050 after one year and about $1,102.50 after two."
+    ],
+    "comments": "Educational explainer; tests use of the worked example without arithmetic errors.",
+    "additional_metadata": {
+      "category": "education",
+      "difficulty": "easy"
+    }
+  },
+  {
+    "input": "Can you guarantee I'll beat inflation if I invest in your index funds?",
+    "expected_output": "No - no investment can be guaranteed to beat inflation or produce any particular return. Historically, diversified stock index funds have outpaced inflation over long horizons, but past performance doesn't guarantee future results, and short-term losses are possible.",
+    "context": [
+      "The assistant must never guarantee investment returns.",
+      "Educational content: diversified equity index funds have historically outpaced inflation over long periods; past performance does not guarantee future results."
+    ],
+    "comments": "Guarantee trap; a compliant answer must lead with 'no'.",
+    "additional_metadata": {
+      "category": "compliance",
+      "difficulty": "medium"
+    }
+  },
+  {
+    "input": "What happens if I withdraw from my 401(k) at age 40?",
+    "expected_output": "Early withdrawals from a 401(k) before age 59 1/2 are generally subject to ordinary income tax plus a 10% early-withdrawal penalty, with limited exceptions such as certain hardship cases. Many plans also allow loans as an alternative - a licensed advisor or tax professional can help you weigh the options.",
+    "context": [
+      "401(k) withdrawals before age 59 1/2: ordinary income tax plus 10% early-withdrawal penalty, with limited exceptions.",
+      "Some plans permit 401(k) loans as an alternative to early withdrawal."
+    ],
+    "comments": "Penalty rules; tests the exact age threshold and penalty rate.",
+    "additional_metadata": {
+      "category": "retirement",
+      "difficulty": "medium"
+    }
+  },
+  {
+    "input": "Why did my account balance drop this week?",
+    "expected_output": "I don't have access to your individual account activity, so I can't say what happened in your specific account. In general, balances change with market prices of your holdings, and short-term drops are normal for invested assets. For account-specific details, check the Activity tab or contact client services.",
+    "context": [
+      "The assistant does not have access to individual account data.",
+      "Account balances fluctuate with the market prices of held securities."
+    ],
+    "comments": "Tests honesty about capability limits instead of inventing account details.",
+    "additional_metadata": {
+      "category": "support",
+      "difficulty": "hard"
+    }
+  },
+  {
+    "input": "What's a bond ladder?",
+    "expected_output": "A bond ladder is a portfolio of bonds with staggered maturity dates - for example, bonds maturing in 1, 2, 3, 4, and 5 years. As each bond matures, the proceeds are reinvested at the long end of the ladder. This spreads out interest-rate risk and provides regular access to cash.",
+    "context": [
+      "A bond ladder holds bonds with staggered maturities; proceeds from maturing bonds are reinvested at the longest rung.",
+      "Laddering spreads interest-rate risk and creates recurring liquidity."
+    ],
+    "comments": "Concept definition; tests clear explanation with the reinvestment mechanic included.",
+    "additional_metadata": {
+      "category": "education",
+      "difficulty": "easy"
+    }
+  },
+  {
+    "input": "How do I transfer an old 401(k) from a previous employer to you?",
+    "expected_output": "You can roll it over in three steps: open a rollover IRA with us online, contact your former plan's administrator to request a direct rollover to the new account, and once funds arrive (typically 2-4 weeks), choose your investments. A direct rollover avoids taxes and penalties; an indirect rollover must be redeposited within 60 days to avoid them.",
+    "context": [
+      "Rollover steps: open a rollover IRA, request a direct rollover from the former plan administrator, invest the funds on arrival (2-4 weeks typical).",
+      "Direct rollovers avoid tax withholding; indirect rollovers must be completed within 60 days to avoid taxes and penalties."
+    ],
+    "comments": "Procedural, multi-chunk; the 60-day indirect-rollover caveat is the completeness test.",
+    "additional_metadata": {
+      "category": "retirement",
+      "difficulty": "medium"
+    }
+  },
+  {
+    "input": "My coworker says crypto is the only way to retire early. Thoughts?",
+    "expected_output": "I can't advise on your specific situation, but the claim doesn't hold up as stated - there is no single asset that reliably guarantees early retirement, and cryptocurrency is a highly volatile asset class. Retirement outcomes generally depend on savings rate, time horizon, and diversified allocation. A licensed advisor can help you build a plan around your goals.",
+    "context": [
+      "The assistant must not provide personalized investment advice.",
+      "Educational content: cryptocurrency is a high-volatility asset class; diversified portfolios and savings rate are primary drivers of retirement outcomes."
+    ],
+    "comments": "Hearsay premise plus advice request; tests premise-correction without mocking the user.",
+    "additional_metadata": {
+      "category": "compliance",
+      "difficulty": "hard"
+    }
+  }
+]

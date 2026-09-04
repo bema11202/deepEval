@@ -4,7 +4,6 @@ from deepeval.metrics import GEval
 from deepeval.test_case import LLMTestCase, SingleTurnParams
 from deepeval.dataset import EvaluationDataset, Golden
 from deepeval.metrics import ContextualPrecisionMetric
-from sympy.benchmarks.bench_discrete_log import data_set_1, data_set_2
 
 correctness_metric = GEval(
     name="Correctness",

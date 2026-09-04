@@ -1,4 +1,4 @@
-from deepeval import assert_test, test_case
+from deepeval import assert_test
 from deepeval.test_case import LLMTestCase, SingleTurnParams
 from deepeval.metrics import AnswerRelevancyMetric
 
@@ -7,7 +7,9 @@ from deepeval.metrics import AnswerRelevancyMetric
 def test_answer_relevancy():
     # Load the validation dataset
     relevancy_metric = AnswerRelevancyMetric(
-        threshold=0.5
+        threshold=0.5,
+        verbose_mode=True,
+        include_reason=True
     )
     # Write a test case for the answer relevancy metric
     test_case = LLMTestCase(
@@ -108,5 +110,3 @@ def test_answer_relevancy_list_partial():
     )
     relevancy_metric.measure(test_case_list_partial_irrelevant)
     assert not relevancy_metric.is_successful()
-
-

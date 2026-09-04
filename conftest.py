@@ -1,5 +1,10 @@
 import pytest
 import deepeval
+from dotenv import load_dotenv
+
+# Loaded at import time (not in a fixture) because some test modules call
+# get_llm_client(...) at module level, before any fixture would run.
+load_dotenv()
 
 
 # deepeval's pytest plugin creates a fresh TestRun in `pytest_sessionstart`,

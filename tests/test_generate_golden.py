@@ -9,10 +9,11 @@ styling_config = StylingConfig(
 )
 
 
-def test_generate_goldens_from_scratch():
+def test_generate_golden_from_scratch():
     synthesizer = Synthesizer(styling_config=styling_config)
-    goldens = synthesizer.generate_goldens_from_scratch(num_goldens=2)
+    golden = synthesizer.generate_goldens_from_scratch(num_goldens=2)
 
-    assert len(goldens) == 2
-    for golden in goldens:
+    assert len(golden) == 2
+    for golden in golden:
         assert golden.input
+
