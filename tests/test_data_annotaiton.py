@@ -29,9 +29,7 @@ for i, golden in enumerate(goldens):
             "expected_output": golden.expected_output,
             "retrieval_context": "|".join(golden.retrieval_context or []),
             "id": str(i),
-            "source_document": golden.source_document,
-            "source_page": golden.source_page,
-            "source_paragraph": golden.source_paragraph,
+            "source_file": golden.source_file,
         }],
         ids=[str(i)],
     )
