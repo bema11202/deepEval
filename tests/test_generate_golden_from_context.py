@@ -29,8 +29,6 @@ for i, golden in enumerate(goldens):
         ids=[str(i)],
     )
 
-dataset.peek()
-
 
 # Metric test cases built directly from the goldens generated above.
 def test_contextual_relevance_from_context():
@@ -38,6 +36,25 @@ def test_contextual_relevance_from_context():
 
     for golden_ in evaluation_dataset.goldens:
         test_case = LLMTestCase(
+            name="LLM input",
+            input=golden_.input,
+            actual_output=golden_.expected_output,
+            expected_output=golden_.expected_output,
+            retrieval_context=golden_.retrieval_context,
+        )
+        assert_test(test_case, [answer_metric])
+
+
+# Metric test cases built directly from the goldens generated above.
+def test_contextual_relevance_from_context2():
+    answer_metric = AnswerRelevancyMetric(threshold=0.5,
+                                          verbose_mode=True,
+                                          include_reason=True,
+                                          )
+
+    for golden_ in evaluation_dataset.goldens:
+        test_case = LLMTestCase(
+            name="User input",
             input=golden_.input,
             actual_output=golden_.expected_output,
             expected_output=golden_.expected_output,
