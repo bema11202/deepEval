@@ -14,6 +14,10 @@ from deepeval.models import OllamaModel, OllamaEmbeddingModel
 OFFLINE = os.getenv("DEEPEVAL_OFFLINE", "").lower() in ("1", "true", "yes")
 OLLAMA_MODEL_NAME = os.getenv("OLLAMA_MODEL_NAME", "llama3.1:8b")
 OLLAMA_EMBEDDING_MODEL_NAME = os.getenv("OLLAMA_EMBEDDING_MODEL_NAME", "nomic-embed-text")
+# Smaller/distinct model used as the "system under test" that generates actual_output
+# in tests/test_annotation_assessment.py, kept separate from OLLAMA_MODEL_NAME (the
+# judge) to avoid self-grading bias (a model tends to rate its own outputs favorably).
+OLLAMA_GENERATOR_MODEL_NAME = os.getenv("OLLAMA_GENERATOR_MODEL_NAME", "llama3.2:3b")
 
 
 def get_local_model():
