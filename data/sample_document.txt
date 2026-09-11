@@ -1,0 +1,380 @@
+
+The Healthcare Operations AI Trainer
+
+
+Happy to help you prepare. One line I'll hold: I'll help you build expertise, practice, and understand what "good" looks like — but I won't write assessment content for you. Your email is explicit that AI-generated submissions are an automatic fail, and it also explicitly encourages practicing with AI tools beforehand. Prep is fair game; ghostwriting isn't.
+Two quick things before we dig in.
+Searched the web, loaded tools
+Both organizations check out. Medix is a real Chicago-based healthcare staffing firm (est. 2001) with a genuine AI/data solutions arm, and a Denver office fits "Regional Recruitment Advisor – West." DataAnnotation is real, owned by Surge AI, and does pay contributors via PayPal.
+One detail worth noting, not as alarm but as a verification prompt: DataAnnotation's public starter assessment is typically unpaid and about an hour. Yours is described as paid ($240) and 3–4 hours. That's plausible for a specialized recruiter-sourced track rather than the self-serve funnel — but since scammers do impersonate DataAnnotation with lookalike domains, two things worth five minutes before Friday:
+Check the assessment link lands on dataannotation.tech and not a near-miss domain
+Call Medix's main published number (not the one in the email) and confirm Amy Lewis and this role
+If both hold, proceed with confidence. And you should never be asked to pay anything — you aren't here, which is a good sign.
+I don't have the attached documents. The email references them, and they almost certainly contain the actual task spec and rubric. Those are the most valuable prep material you have — upload them and I can work from what they actually ask rather than what I infer.
+Meanwhile, from the email alone, the assessment looks like it tests four things: inventing genuinely hard healthcare-ops tasks for an AI, evaluating AI output against sources, writing long-form grounded content, and following formatting instructions exactly (the "two sentences means exactly two sentences" line is a real trap).
+To make pre
+p useful rather than generic:
+What's your actual healthcare operations background?Health IT / data / analytics, Compliance / regulatory
+What would help most between now and Friday?Practice writing LLM-hard tasks (Recommended), Instruction-following drills, Domain refresher, How LLMs actually fail
+Strong combination for this role — HIT/data plus compliance is precisely the intersection where models break down, which gives you an edge in designing tasks that defeat them.
+Let me ground the domain material in what's actually current rather than my training data.
+Updated tasks, searched the web, loaded tools
+
+==================================
+Prep guide is ready. One deliberate design choice worth flagging: there are no ready-made example tasks in it. The skill being assessed is generating these, and reading finished specimens builds recognition rather than capability — plus anything I wrote would be AI-generated, which is the thing that gets people rejected. You get the framework and verified facts; the output is yours.
+Your background turns out to be well-matched. Regulatory status distinctions — proposed versus final versus effective — are exactly where models are weakest, and that's your daily territory. Three live examples I verified today:
+The HIPAA Security Rule overhaul is still only proposed. The mandatory encryption and MFA provisions are described as current law constantly. The spring 2026 target passed with no final rule; HHS moved it to Long-Term Actions with July 2027 anticipated, and 100+ health systems have asked for withdrawal.
+The TEFCA Manner Exception was finalized, then targeted for removal within a year. HTI-2 created it in December 2024; the HTI-5 proposed rule of December 2025 proposes deleting it. A model will almost certainly present it as settled.
+CMS-0057-F has two deadlines that get confused. The January 2026 operational provisions have already passed; the four FHIR APIs aren't due until January 2027.
+Verify anything you build on — that's the habit the role itself requires, and a stale claim in your submission reads as carelessness.
+Two things would sharpen this considerably: upload the attached documents from Amy's email, since they likely contain the actual task spec and rubric. And if you want, run Drill C — draft ten task ideas from your own work — and I'll help you pressure-test which ones are genuinely hard versus merely obscure. That's coaching on your material, not writing it for you.
+Healthcare ai trainer prep
+Document · MD
+Write a message…
+
+
+# Healthcare Operations AI Trainer — Assessment Prep
+
+For Bernard Masoko · Assessment Friday 11 September 2026
+
+---
+
+## A note on how this guide is built
+
+There are deliberately **no ready-made example tasks** in here. Two reasons.
+
+First, your instructions say submissions must be 100% your own and that
+recycling supplied examples is disqualifying. If I hand you polished specimens,
+the temptation to lean on them is real, and they'd be AI-generated — the exact
+thing that gets people rejected.
+
+Second, and more practically: the skill being assessed *is* generating these.
+Reading someone else's finished examples builds recognition, not capability.
+Working the framework builds capability.
+
+So this gives you the analytical framework, verified current domain facts you
+can check yourself, and drills that force you to produce. The output is yours.
+
+---
+
+## Part 1 — What's actually being tested
+
+Read the email closely and four distinct competencies fall out:
+
+1. **Task design** — inventing prompts that genuinely defeat a capable model
+2. **Evaluation** — judging AI output against sources, with defensible reasoning
+3. **Long-form grounded writing** — expert content that cites and holds together
+4. **Instruction compliance** — doing exactly what's asked, to the letter
+
+Most candidates fail on (4), not (1). The email says so directly. Attention
+discipline beats brilliance here.
+
+There's a fifth thing nobody states: **your writing must read as human.** Every
+submission is reviewed by a person who reads these all day and has developed a
+sharp ear for LLM prose. Part 6 covers this.
+
+---
+
+## Part 2 — How LLMs actually fail
+
+You need a working model of model failure. These are the exploitable seams,
+ordered by how well they fit your HIT/compliance background.
+
+### 2.1 Temporal and status confusion — your strongest lever
+
+Models compress "proposed," "final," "effective," and "enforced" into a mush of
+"exists." Regulatory work lives on exactly those distinctions.
+
+A model asked about the HIPAA Security Rule overhaul will often describe
+mandatory encryption and MFA as current obligations. They are **proposed**, not
+law — and the timeline has slipped twice (see Part 5). That gap between what a
+model asserts and what's true is where a hard task lives.
+
+### 2.2 Regulatory composition
+
+Single-rule questions are easy. Questions where two rules interact — one
+creating an exception the other narrows, or a federal floor a state law exceeds
+— require holding several structures at once. Models flatten this.
+
+### 2.3 Jurisdictional layering
+
+Federal baseline plus state variation plus preemption analysis. Models default
+to the federal answer and miss that a specific state imposes more. With 177
+healthcare AI bills pending across 31 states, this vein is deep right now.
+
+### 2.4 Citation fidelity
+
+Models invent CFR sections, misattribute rule numbers, and confidently cite
+Federal Register pages that don't exist. A task requiring exact citation to a
+specific provision is hard in a way that's cleanly verifiable — either the cite
+is right or it isn't.
+
+### 2.5 Near-identical entity confusion
+
+HTI-1, HTI-2, HTI-5. CMS-0057-F versus other CMS interoperability rules. TEFCA
+versus the Manner Exception versus QHIN requirements. Models blur these
+constantly because the names are so similar and co-occur in training data.
+
+### 2.6 Negative knowledge
+
+"What does this rule *not* cover?" "Which entity types are excluded?" Models are
+trained toward helpful assertion, so they struggle to correctly enumerate
+absences and often manufacture coverage that isn't there.
+
+### 2.7 Refusing to speculate
+
+Give a model a question with genuinely insufficient information and a good
+answer says so. Most fill the gap with plausible fiction. A task where the
+*correct* response is "this cannot be determined from the source provided" is
+a strong probe — and healthcare ops is full of real situations like that.
+
+### 2.8 Long-output degradation
+
+Constraints given at the start decay by paragraph six. Ask for something long
+*and* constrained and models drift — losing format, contradicting an earlier
+claim, dropping a required element.
+
+**A calibration point for your tasks:** studies of LLMs in clinical decision
+support estimate hallucination rates of 8–20%. Models fail here often, and
+plausibly. Your job is to make that failure *legible and verifiable*, not to
+find something they can't do at all.
+
+---
+
+## Part 3 — The difficulty sweet spot
+
+The email warns against both extremes: don't ask for private data the model
+can't have, don't be vague. Here's the operational test.
+
+**A task is too easy when:**
+- One retrievable, stable, widely-documented fact answers it
+- The answer hasn't changed in years
+- A competent search returns it as the top result
+
+**A task is unfair or broken when:**
+- It needs private, internal, or real-time data the model has no access to
+- No verifiable ground truth exists
+- It's ambiguous enough that several answers are defensible
+- You yourself can't state the correct answer with confidence
+
+**A task is in the sweet spot when all four hold:**
+
+1. **Verifiable** — there's a right answer, and you can point to the source
+2. **Reasoning-dependent** — retrieval alone won't get there; it needs
+  composition, comparison, temporal logic, or exclusion
+3. **Realistic** — a genuine healthcare ops person would actually need this
+4. **Discriminating** — a strong response and a weak one look clearly different
+
+That fourth criterion is the one people miss. If a good answer and a bad answer
+are hard to tell apart, the task is useless for training regardless of how
+hard it is.
+
+### Building one, mechanically
+
+1. Pick a real workflow from your own experience (compliance review,
+  interoperability assessment, audit prep, vendor evaluation)
+2. Identify where it depends on something from Part 2 — a status distinction,
+  a rule interaction, a jurisdictional overlay
+3. Draft the scenario with enough specificity that the answer is determinate
+4. **Write the correct answer yourself, with sources, before finalizing.** If
+  you can't, the task isn't ready
+5. Ask: could a strong model get this right by pattern-matching? If yes,
+  tighten it
+
+Step 4 is the discipline that separates good task writers from bad ones. It
+also protects you — you can't accidentally submit an unanswerable task.
+
+Part 4 — Instruction compliance
+
+The stated single most common auto-fail. Treat it as a mechanical process, not
+a matter of care.
+
+**Before writing anything:**
+
+- Read the full prompt once for meaning
+- Read it again and physically list every constraint — count, format, length,
+ structure, tone, inclusions, exclusions
+- Write to the list
+- Check against the list before submitting
+
+The traps specifically:
+
+- "Minimum two sentences" — the email says provide *exactly* two.
+When a minimum and an example conflict, follow the most literal reading, and don't
+ pad. Their phrasing suggests they treat overshoot as non-compliance.
+- Counts mean counts. Three examples means three, not "three or four."
+- Format words are literal. "Bulleted list" is not a paragraph. "One paragraph"
+ is not two.
+- Negative constraints ("do not mention X") are as binding as positive ones and
+ easier to violate accidentally.
+- If instructions genuinely conflict, follow the more specific one and note the
+ conflict briefly rather than silently picking.
+
+**Do a final compliance pass separate from your quality pass.** Different mode
+of attention. Reading for quality hides format errors; reading for format
+catches them.
+
+Part 5 — Domain refresher: current state, verified
+
+These are checked as of September 2026 with sources. They're useful two ways:
+as material for your tasks, and because several are things models get wrong —
+which makes them natural task foundations.
+
+**Verify anything you build on. Regulations move, and a stale claim in your
+submission reads as carelessness.**
+
+CMS Interoperability & Prior Authorization (CMS-0057-F)
+
+- Released 17 January 2024
+- Applies to Medicare Advantage, Medicaid, CHIP, and QHP issuers on the FFE
+- **1 January 2026** — operational provisions took effect: faster prior auth
+ turnaround, specific denial reasons, Patient Access API metric reporting.
+ *This deadline has passed.* Non-compliant plans are currently out of
+ compliance.
+- **1 January 2027** — four production FHIR APIs required
+
+The two-deadline structure is a genuine trap. Models routinely conflate them
+or place both in 2027.
+
+ASTP/ONC — HTI rules and TEFCA
+
+HTI-1** finalized December 2023
+HTI-2** finalized 16 December 2024 — notably *scaled back* from what was
+ proposed, to developer disappointment. Created the **TEFCA Manner Exception**
+ to the information blocking rules.
+- **HTI-5 proposed rule, 29 December 2025** — proposes **removing** the TEFCA
+ Manner Exception. ASTP/ONC's reasoning: it's being misapplied in ways that
+ harm exchange, and TEFCA has matured enough not to need the incentive. The
+ same rule would scale back certification criteria for AI "decision support
+ interventions."
+
+This is a strong seam. A model will likely describe the Manner Exception as
+settled law — it was finalized, then targeted for removal within a year.
+
+HIPAA Security Rule overhaul — still not final
+
+- Proposed 27 December 2024, published 6 January 2025, comments closed
+ 7 March 2025
+- Would mandate: encryption of ePHI at rest and in transit (removing
+ "addressable"), MFA for all systems touching ePHI, 72-hour incident
+ reporting, annual penetration testing, tighter business associate oversight
+- **Status as of 2026: still proposed.** The spring 2026 target passed with no
+ final rule. HHS moved it to the Long-Term Actions agenda with **July 2027**
+ as anticipated final action.
+- Over 100 health systems and associations — including Cleveland Clinic, Yale
+ New Haven, Advocate Health, the AMA and the AAP — formally asked HHS to
+ withdraw it
+
+Models very often present these as current requirements. They are not.
+
+State healthcare AI law
+
+- 177 pending bills across 31 states (NCSL tracker)
+- **Texas TRAIGA** — signed June 2025, effective 1 January 2026. Requires
+ conspicuous written disclosure to patients when AI is used in diagnosis or
+ treatment. **SB 1188** additionally requires practitioners to review
+ AI-generated output before clinical decisions.
+- **California** — disclaimers required on AI-generated patient communications
+ concerning clinical information, plus clear instructions for reaching a
+ human clinician
+- **Maryland** — disclosure and transparency duties including quarterly
+ reporting to the insurance commissioner
+
+Recurring themes across states: transparency to patients, human oversight of
+adverse determinations, constraints on AI in prior authorization and claims.
+
+This area changes monthly. Perfect for temporal-currency tasks; verify before
+relying on any specific provision.
+
+Part 6 — Sounding like yourself
+
+A human reviewer will read your submission. Some tells that trigger "this is
+AI" suspicion, worth avoiding even though your work will be your own:
+
+- Tricolon everywhere — three parallel items, relentlessly
+- "It's not just X, it's Y" constructions
+- Openings that restate the question before answering
+- Uniform paragraph lengths and flawless parallel structure
+- Hedging blankets: "it's important to note," "generally speaking," "in many cases"
+- Tidy summary paragraphs that add nothing
+- Em-dashes used the way I use them
+
+What reads as human expertise: specific numbers, named systems, a concrete
+recollection of how something actually works in practice, willingness to say
+"in my experience this is usually where it breaks," uneven sentence rhythm,
+and occasional plain bluntness. Your HIT and compliance background is a real
+asset here — use specifics only someone who's done the work would reach for.
+
+Part 7 — Practice drills
+
+No answers supplied. That's the point.
+
+Drill A — Instruction compliance (20 min)
+
+Find any three prompts with fussy formatting requirements — job application
+questions, grant forms, whatever. Extract every constraint into a checklist,
+respond, then audit against the checklist. Count your misses. Most people miss
+one in three on the first pass, which is exactly why this is the top auto-fail.
+
+Drill B — Break a model, deliberately (60 min)
+
+Open Gemini or ChatGPT. Using Part 5's facts as your ground truth, ask
+questions in your own domain where you already know the answer. Log:
+
+- What it got wrong
+- Whether the error was confident or hedged
+- Whether the failure was retrieval, reasoning, or currency
+
+You're building a personal catalogue of failure patterns. This is legitimate
+preparation — your email explicitly recommends it.
+
+Drill C — Task design reps (90 min)
+
+Generate ten task ideas from your own work history. For each, score 1–5 on the
+four sweet-spot criteria in Part 3. Keep the ones scoring 4+ on all four. Write
+the correct answer, with sources, for your best three.
+
+You'll likely discard six or seven. That's the process working — the discard
+rate is what makes the survivors good.
+
+Drill D — Grounded writing (45 min)
+
+Take one Part 5 topic. Write 400 words explaining it to a healthcare ops
+manager, with citations. Then verify every factual claim against a primary
+source. Note anything you asserted from memory that turned out shaky — that
+instinct is what you'll need under time pressure.
+
+Part 8 — Assessment day
+
+**Logistics**
+
+- Verify the link lands on **dataannotation.tech**, not a lookalike
+- Register with the exact email that received the invitation
+- Have PayPal active with the correct email
+- Budget 4–5 hours for a 3–4 hour assessment; don't start late in the day
+- You were told you can request more time. Do that rather than rush.
+
+**Working method**
+
+1. Read everything before writing anything
+2. Build the constraint checklist first
+3. Draft in a separate document — platform timeouts eat work
+4. Quality pass, then a *separate* format-compliance pass
+5. Verify every factual claim before submitting
+
+**One thing to internalize:** they'd rather have three excellent original tasks
+than eight recycled ones. The email stresses originality twice. Depth over
+volume.
+
+Sources
+
+- [CMS Interoperability and Prior Authorization Final Rule (CMS-0057-F)](https://www.cms.gov/initiatives/burden-reduction/overview/interoperability/policies-regulations/cms-interoperability-prior-authorization-final-rule-cms-0057-f)
+- [HTI-2 Final Rule — ONC/ASTP](https://healthit.gov/regulations/hti-rules/hti-2-final-rule/)
+- [The HTI-5 Proposed Rules — Epstein Becker Green](https://www.healthlawadvisor.com/the-hti-5-proposed-rules-astp-oncs-cleanup-and-the-hard-work-that-lies-ahead)
+- [HHS Proposes Changes in HTI-5 Proposed Rule — Covington Digital Health](https://www.covingtondigitalhealth.com/2026/01/hhs-proposes-changes-to-the-health-it-certification-program-and-information-blocking-regulations-in-hti-5-proposed-rule/)
+- [HIPAA Security Rule Update Delayed Until 2027 — Clark Hill](https://www.clarkhill.com/news-events/news/hipaa-security-rule-update-delayed-until-2027/)
+- [HIPAA Security Rule Enforcement: Where Things Stand in 2026 — Clearwater](https://clearwatersecurity.com/blog/hipaa-security-rule-enforcement-2026/)
+- [States Continue Efforts to Regulate AI in Healthcare — Holland & Knight](https://www.hklaw.com/en/insights/publications/2026/05/states-continue-efforts-to-regulate-ai-in-healthcare)
+- [2026 State AI Laws: Legislative Wrap-Up — Epstein Becker Green](https://www.ebglaw.com/insights/publications/ai-legislation-2026-legislative-wrap-up)
+- [The Governance Gap in Clinical AI — The Regulatory Review](https://www.theregreview.org/2026/08/06/craige-the-governance-gap-in-clinical-ai/)
+
