@@ -12,7 +12,7 @@ from deepeval.test_case.llm_test_case import SingleTurnParams
 
 from deepeval.models import OllamaModel
 
-from tests.local_eval_config import OLLAMA_MODEL_NAME
+from local_eval_config import OLLAMA_MODEL_NAME
 
 JUDGE_MODEL = OllamaModel(model=OLLAMA_MODEL_NAME)
 
