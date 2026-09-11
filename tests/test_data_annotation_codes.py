@@ -11,7 +11,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 GOLDEN_JSON_PATH = DATA_DIR / "data_annotation_codes_golden_dataset.json"
 
 # List of documents to be synthesized into goldens
-documents = [str(DATA_DIR / "ICD-10-CM_October_2025_FY26Guidelines.pdf")]
+documents = [str(DATA_DIR / "ICD-10-CM_October_2025_FY26Guidelines.pdf"), str(DATA_DIR / "AAPC_Codes.pdf")]
 
 evaluation_dataset = EvaluationDataset()
 evaluation_dataset.generate_goldens_from_docs(
