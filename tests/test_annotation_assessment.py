@@ -17,7 +17,20 @@
 #
 # Runs fully offline (never depends on OPENAI_API_KEY): both the generator and the
 # judge are local Ollama models.
+import os
 import re
+from pathlib import Path
+
+from pypdf import PdfReader
+
+# ask_annotator() below grounds answers in the full ~2,400-token PDF rather than a
+# short excerpt, and HallucinationMetric makes several sequential local-model calls
+# to verify it (extract claims, then check each against context). A single such call
+# over that much context took over 298s on this hardware - longer than even a raised
+# per-attempt timeout budget - so disable deepeval's enforced timeouts for this
+# unpredictably-slow-local-model case rather than guess a number. setdefault so it
+# never overrides an explicit user setting.
+os.environ.setdefault("DEEPEVAL_DISABLE_TIMEOUTS", "1")
 
 from deepeval.metrics import (
     GEval,
@@ -35,6 +48,14 @@ from local_eval_config import OLLAMA_MODEL_NAME, OLLAMA_GENERATOR_MODEL_NAME
 
 JUDGE_MODEL = OllamaModel(model=OLLAMA_MODEL_NAME)
 GENERATOR_MODEL = OllamaModel(model=OLLAMA_GENERATOR_MODEL_NAME)
+
+# Dedicated instance for ask_annotator(): the full ~2,400-token PDF context plus a
+# HallucinationMetric verdict per extracted claim needs more headroom than the
+# default context window - a first attempt with the default window truncated the
+# judge's JSON output mid-generation (input + growing output both compete for the
+# same window). Kept separate from JUDGE_MODEL so the other 14 tests' already-
+# verified behavior is untouched.
+ANNOTATOR_JUDGE_MODEL = OllamaModel(model=OLLAMA_MODEL_NAME, generation_kwargs={"num_ctx": 16384})
 
 
 def llm_answer(prompt: str) -> str:
@@ -88,6 +109,20 @@ CMS_0057F_EXPECTED_OUTPUT = (
     "CMS-0057-F operational provisions took effect 1 January 2026, and four "
     "production FHIR APIs are separately required starting 1 January 2027."
 )
+# The Annotator's own base context: the full text of the assessment brief itself
+# (not a hand-picked excerpt like CMS_0057F_CONTEXT/HIPAA_SECURITY_RULE_CONTEXT),
+# so ask_annotator() below can ground answers to *any* question about the brief.
+ANNOTATOR_PDF_PATH = (
+        Path(__file__).resolve().parent.parent / "data" / "Data_Annotation_AI_Training_Assessment_Google_Docs.pdf"
+)
+
+
+def load_annotator_context(pdf_path: Path = ANNOTATOR_PDF_PATH) -> str:
+    reader = PdfReader(str(pdf_path))
+    return "\n".join(page.extract_text() or "" for page in reader.pages)
+
+
+ANNOTATOR_CONTEXT_TEXT = load_annotator_context()
 # A context passage missing the second (2027) deadline, for the ContextualRecall
 # negative control: retrieval that's real but incomplete relative to what the
 # expected answer needs.
@@ -169,11 +204,52 @@ def hallucination_metric() -> HallucinationMetric:
     return HallucinationMetric(threshold=0.5, model=JUDGE_MODEL, include_reason=True)
 
 
+def print_result(metric, actual_output: str = None) -> None:
+    # metric.measure() alone prints nothing, and this suite intentionally calls
+    # measure() + a plain assert (not assert_test()) so "bad" cases can assert a
+    # correct failure instead of raising - which means deepeval's own -vv/-s score
+    # and reason printout never fires (it's wired to assert_test()). Printing here
+    # is what actually makes `pytest -s` / `deepeval test run ... -s` show the
+    # score and reason, on a pass as well as a fail.
+    print(f"\n[{metric.__class__.__name__}] score={metric.score} success={metric.success}")
+    print(f"reason: {getattr(metric, 'reason', None)}")
+    if actual_output is not None:
+        print(f"actual_output: {actual_output!r}")
+
+
 def count_sentences(text: str) -> int:
     # Deterministic, not LLM-judged: the brief calls this trap "cleanly verifiable —
     # either it is or it isn't," so an exact-count instruction gets a plain count
     # rather than an LLM's notoriously unreliable sentence counting.
     return len([s for s in re.split(r"(?<=[.!?])\s+", text.strip()) if s])
+
+
+def ask_annotator(query: str, context: str = None) -> tuple[str, HallucinationMetric]:
+    """Ask the Annotator (the healthcare-ops agent this suite exists to support) a
+    question grounded in `context` - defaults to the full text of the assessment
+    brief PDF (ANNOTATOR_CONTEXT_TEXT) - answered live by the local generator model
+    and judged for groundedness by the local judge model.
+
+    This is a callable utility, not a fixed test case: pass your own query (and
+    optionally your own context) to probe the brief - or any other material - without
+    writing a new test function each time. Returns (answer, metric); read
+    metric.score / metric.reason / metric.success to see the judge's verdict.
+
+    Example:
+        from tests.test_annotation_assessment import ask_annotator
+        answer, metric = ask_annotator("What does the brief say about jurisdictional layering?")
+        print(answer, metric.score, metric.reason)
+    """
+    ctx = context if context is not None else ANNOTATOR_CONTEXT_TEXT
+    answer = llm_answer(
+        f"Answer the question using ONLY the information below. Do not add anything "
+        f"not stated here. Be concise - a few sentences is enough.\n\n"
+        f"Information:\n{ctx}\n\nQuestion: {query}\n\nAnswer:"
+    )
+    test_case = LLMTestCase(input=query, actual_output=answer, context=[ctx])
+    metric = HallucinationMetric(threshold=0.5, model=ANNOTATOR_JUDGE_MODEL, include_reason=True)
+    metric.measure(test_case)
+    return answer, metric
 
 
 # ---------------------------------------------------------------------------
@@ -198,6 +274,7 @@ def test_cms_0057f_deadlines_kept_distinct():
     )
     metric = hallucination_metric()
     metric.measure(test_case)
+    print_result(metric, actual_output)
     assert metric.success, (
         f"Expected the grounded two-deadline answer to pass hallucination check, "
         f"got score={metric.score}, reason={metric.reason}, actual_output={actual_output!r}"
@@ -213,6 +290,7 @@ def test_cms_0057f_deadlines_conflated_is_caught():
     )
     metric = hallucination_metric()
     metric.measure(test_case)
+    print_result(metric, actual_output)
     assert not metric.success, (
         f"Expected the ungrounded answer to be flagged as hallucination, "
         f"got score={metric.score}, reason={metric.reason}, actual_output={actual_output!r}"
@@ -234,6 +312,7 @@ def test_hipaa_security_rule_status_kept_accurate():
         input=HIPAA_QUESTION, actual_output=actual_output, context=HIPAA_SECURITY_RULE_CONTEXT
     )
     SPECULATION_METRIC.measure(test_case)
+    print_result(SPECULATION_METRIC, actual_output)
     assert SPECULATION_METRIC.success, (
         f"Expected an answer preserving 'proposed, not final' status to pass, "
         f"got score={SPECULATION_METRIC.score}, reason={SPECULATION_METRIC.reason}, "
@@ -249,6 +328,7 @@ def test_hipaa_security_rule_status_overstatement_is_caught():
         input=HIPAA_QUESTION, actual_output=actual_output, context=HIPAA_SECURITY_RULE_CONTEXT
     )
     SPECULATION_METRIC.measure(test_case)
+    print_result(SPECULATION_METRIC, actual_output)
     assert not SPECULATION_METRIC.success, (
         f"Expected a proposed rule stated as current law to be flagged, "
         f"got score={SPECULATION_METRIC.score}, reason={SPECULATION_METRIC.reason}, "
@@ -272,6 +352,7 @@ def test_penalty_amount_correctly_unanswered():
         input=PENALTY_QUESTION, actual_output=actual_output, context=CMS_0057F_CONTEXT
     )
     REFUSAL_METRIC.measure(test_case)
+    print_result(REFUSAL_METRIC, actual_output)
     assert REFUSAL_METRIC.success, (
         f"Expected a correct refusal to guess the penalty amount to pass, "
         f"got score={REFUSAL_METRIC.score}, reason={REFUSAL_METRIC.reason}, "
@@ -287,6 +368,7 @@ def test_penalty_amount_fabrication_is_caught():
         input=PENALTY_QUESTION, actual_output=actual_output, context=CMS_0057F_CONTEXT
     )
     REFUSAL_METRIC.measure(test_case)
+    print_result(REFUSAL_METRIC, actual_output)
     assert not REFUSAL_METRIC.success, (
         f"Expected a fabricated penalty amount to be flagged, "
         f"got score={REFUSAL_METRIC.score}, reason={REFUSAL_METRIC.reason}, "
@@ -351,6 +433,7 @@ def test_answer_relevancy_on_topic_passes():
     test_case = LLMTestCase(input=CMS_0057F_EFFECTIVE_DATE_QUESTION, actual_output=actual_output)
     metric = AnswerRelevancyMetric(threshold=0.5, model=JUDGE_MODEL, include_reason=True)
     metric.measure(test_case)
+    print_result(metric, actual_output)
     assert metric.success, (
         f"Expected an on-topic, grounded answer to pass relevancy check, "
         f"got score={metric.score}, reason={metric.reason}, actual_output={actual_output!r}"
@@ -368,6 +451,7 @@ def test_answer_relevancy_off_topic_is_caught():
     test_case = LLMTestCase(input=CMS_0057F_EFFECTIVE_DATE_QUESTION, actual_output=actual_output)
     metric = AnswerRelevancyMetric(threshold=0.5, model=JUDGE_MODEL, include_reason=True)
     metric.measure(test_case)
+    print_result(metric, actual_output)
     assert not metric.success, (
         f"Expected an off-topic answer to be flagged as irrelevant, "
         f"got score={metric.score}, reason={metric.reason}, actual_output={actual_output!r}"
@@ -393,6 +477,7 @@ def test_contextual_precision_relevant_chunk_ranked_first_passes():
     )
     metric = ContextualPrecisionMetric(threshold=0.5, model=JUDGE_MODEL, include_reason=True)
     metric.measure(test_case)
+    print_result(metric, actual_output)
     assert metric.success, (
         f"Expected the relevant chunk ranked first to pass precision check, "
         f"got score={metric.score}, reason={metric.reason}"
@@ -414,6 +499,7 @@ def test_contextual_precision_relevant_chunk_buried_is_caught():
     )
     metric = ContextualPrecisionMetric(threshold=0.5, model=JUDGE_MODEL, include_reason=True)
     metric.measure(test_case)
+    print_result(metric, actual_output)
     assert not metric.success, (
         f"Expected the buried relevant chunk to be flagged for poor ranking, "
         f"got score={metric.score}, reason={metric.reason}"
@@ -440,6 +526,7 @@ def test_contextual_recall_complete_retrieval_passes():
     # lands exactly at 0.5, so 0.5 wouldn't cleanly separate pass from fail.
     metric = ContextualRecallMetric(threshold=0.6, model=JUDGE_MODEL, include_reason=True)
     metric.measure(test_case)
+    print_result(metric, actual_output)
     assert metric.success, (
         f"Expected retrieval covering both deadlines to pass recall check, "
         f"got score={metric.score}, reason={metric.reason}"
@@ -461,7 +548,18 @@ def test_contextual_recall_incomplete_retrieval_is_caught():
     )
     metric = ContextualRecallMetric(threshold=0.6, model=JUDGE_MODEL, include_reason=True)
     metric.measure(test_case)
+    print_result(metric, actual_output)
     assert not metric.success, (
         f"Expected the incomplete retrieval (missing the 2027 deadline) to be "
         f"flagged for insufficient recall, got score={metric.score}, reason={metric.reason}"
+    )
+
+
+# Annotator contextual relevance tests: does the answer actually address the question asked, rather than being on-topic-domain but not answering the specific question?
+# Uses the full PDF text as context, so the Annotator can answer any question about the brief without hand-picking a short excerpt.
+def test_annotator_relevancy_on_topic_passes():
+    actual_output, metric = ask_annotator(CMS_0057F_EFFECTIVE_DATE_QUESTION)
+    assert metric.success, (
+        f"Expected an on-topic, grounded answer to pass relevancy check, "
+        f"got score={metric.score}, reason={metric.reason}, actual_output={actual_output!r}"
     )
