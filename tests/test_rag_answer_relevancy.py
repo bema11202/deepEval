@@ -5,7 +5,13 @@ from deepeval import assert_test
 from deepeval.dataset import EvaluationDataset
 from deepeval.synthesizer import Synthesizer
 from deepeval.metrics import AnswerRelevancyMetric
+from deepeval.models import AnthropicModel
 from deepeval.test_case import LLMTestCase
+
+# Use Anthropic instead of the default OpenAI model (OpenAI key is out of credits).
+# deepeval's own default Anthropic model id (claude-sonnet-4-6-20250514) is invalid
+# (404 from the API), so pin an explicit, known-good model.
+EVAL_MODEL = AnthropicModel(model="claude-haiku-4-5-20251001")
 
 
 # Metric test cases built directly from the goldens generated above.
@@ -23,7 +29,7 @@ def test_contextual_relevance():
     else:
         evaluation_dataset.generate_goldens_from_docs(
             document_paths=documents,
-            synthesizer=Synthesizer(),
+            synthesizer=Synthesizer(model=EVAL_MODEL),
         )
         evaluation_dataset.save_as(
             file_type="json",
@@ -46,8 +52,8 @@ def test_contextual_relevance():
             ids=[str(i)],
         )
 
-    answer_metric = AnswerRelevancyMetric(threshold=0.5)
-    sync_metric = AnswerRelevancyMetric(threshold=0.5, async_mode=False)
+    answer_metric = AnswerRelevancyMetric(threshold=0.5, model=EVAL_MODEL)
+    sync_metric = AnswerRelevancyMetric(threshold=0.5, async_mode=False, model=EVAL_MODEL)
 
     for golden_ in evaluation_dataset.goldens:
         test_case = LLMTestCase(
